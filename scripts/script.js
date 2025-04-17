@@ -1,4 +1,13 @@
 
+function removeActiveClass() {
+  const activeBtn = document.getElementsByClassName("active");
+
+  for (btn of activeBtn) {
+    btn.classList.remove("active");
+  }
+
+}
+
 const loadCategories = () => {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
     .then(res => res.json())
@@ -11,7 +20,14 @@ const loadVideos = () => {
 
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then(res => res.json())
-    .then(data => displayVideos(data.videos))
+    .then(data => {
+
+      removeActiveClass();
+      document.getElementById("btn-all").classList.add("active");
+
+
+      displayVideos(data.videos)
+    })
 
 }
 
@@ -19,7 +35,15 @@ const loadCategoryVideos = (id) => {
 
   fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then(res => res.json())
-    .then(data => displayVideos(data.category))
+    .then(data => {
+      const clickedbtn = document.getElementById(`btn-${id}`);
+
+      removeActiveClass();
+
+      clickedbtn.classList.add("active")
+      console.log(clickedbtn);
+      displayVideos(data.category)
+    })
 
 }
 
@@ -30,7 +54,7 @@ const displayCategories = (categories) => {
     const categoryDiv = document.createElement("div");
 
     categoryDiv.innerHTML = `
-    <button onclick="loadCategoryVideos(${cat.category_id}) " class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>`
+    <button id="btn-${cat.category_id}" onclick="loadCategoryVideos(${cat.category_id}) " class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>`
 
     categoryContainer.appendChild(categoryDiv);
   }
@@ -40,7 +64,19 @@ const displayVideos = (videos) => {
 
   const videoContainer = document.getElementById("video-container");
 
-  videoContainer.innerHTML = " "
+  videoContainer.innerHTML = " ";
+
+  if (videos.length == 0) {
+    videoContainer.innerHTML = `
+    <div
+          class="py-20 col-span-full flex flex-col justify-center items-center"
+        >
+          <img class="w-[120px]" src="./Assests/Icon.png" alt="" />
+          <h2 class="py-6 font-bold text-4xl">Sorry! There is no video</h2>
+        </div>`
+    return;
+
+  }
 
   videos.forEach(video => {
 

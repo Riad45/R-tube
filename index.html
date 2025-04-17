@@ -12,6 +12,15 @@
       type="text/css"
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- additional styles -->
+
+    <style>
+      .active {
+        background: #ff1f3d;
+        color: white;
+      }
+    </style>
   </head>
 
   <body class="w-11/12 mx-auto">
@@ -34,6 +43,7 @@
       >
         <button
           onclick="loadVideos()"
+          id="btn-all"
           class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white"
         >
           All
@@ -44,6 +54,15 @@
     <main>
       <section id="video-container" class="grid grid-cols-3 gap-5">
         <!-- test -->
+
+        <div
+          class="py-20 col-span-full flex flex-col justify-center items-center text-center"
+        >
+          <img class="w-[120px]" src="./Assests/Icon.png" alt="" />
+          <h2 class="py-6 font-bold text-4xl">
+            Sorry! There is no video <br />select a category
+          </h2>
+        </div>
       </section>
     </main>
 
